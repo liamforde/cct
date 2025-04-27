@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Collectors Trail</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 20px;
+      background-color: #111;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+    }
+    section {
+      padding: 40px;
+      text-align: center;
+    }
+    h1, h2 {
+      margin-bottom: 20px;
+    }
+    .timer {
+      font-size: 36px;
+      margin-top: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    input, textarea, button {
+      padding: 10px;
+      width: 300px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #f90;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #fc0;
+    }
+    .success-message {
+      margin-top: 20px;
+      color: #0f0;
+      font-size: 18px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#sponsors">Sponsors</a>
+  <a href="#hosts">POS Hosts</a>
+</nav>
+
+<section id="home">
+  <h1>Crypto Collectors Trail</h1>
+  <p>Join the adventure! Collect coins, win prizes, and explore your city.</p>
+  <h2>First Trail Launches In:</h2>
+  <div class="timer" id="countdown"></div>
+</section>
+
+<section id="sponsors">
+  <h2>Become a Sponsor</h2>
+  <p>Showcase your coin or brand to a passionate, tech-savvy audience. Premium visibility, direct engagement, and community buzz await you.</p>
+  <form id="sponsorForm">
+    <input type="text" id="sponsorName" placeholder="Company Name" required>
+    <input type="email" id="sponsorEmail" placeholder="Contact Email" required>
+    <textarea id="sponsorMessage" placeholder="Why you want to sponsor" required></textarea>
+    <button type="submit">Apply to Sponsor</button>
+    <div class="success-message" id="sponsorSuccess">Thank you for applying to sponsor!</div>
+  </form>
+</section>
+
+<section id="hosts">
+  <h2>Host a POS Stand</h2>
+  <p>Drive more foot traffic to your cafe or store. Be part of an exciting new movement and reward your customers with crypto collectibles.</p>
+  <form id="hostForm">
+    <input type="text" id="hostName" placeholder="Business Name" required>
+    <input type="email" id="hostEmail" placeholder="Contact Email" required>
+    <textarea id="hostMessage" placeholder="Tell us about your location" required></textarea>
+    <button type="submit">Apply to Host</button>
+    <div class="success-message" id="hostSuccess">Thank you for applying to host!</div>
+  </form>
+</section>
+
+<script>
+// Countdown Timer
+const countdownDate = new Date("2025-07-01T00:00:00").getTime();
+const countdown = setInterval(function() {
+  const now = new Date().getTime();
+  const distance = countdownDate - now;
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  document.getElementById("countdown").innerHTML =
+    days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+  if (distance < 0) {
+    clearInterval(countdown);
+    document.getElementById("countdown").innerHTML = "Trail Launched!";
+  }
+}, 1000);
+
+// Airtable API Config
+const airtableBaseId = 'appeO0iiIaJvd0KH3';
+const airtableApiKey = 'patD5LwrIV9iSbpeA.8b534267d24ac0c3cfba8b1fae23da3d257533e4e62f7dc6ff9f6ebe631251c8';
+
+// Sponsor Form Submission
+const sponsorForm = document.getElementById('sponsorForm');
+sponsorForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('sponsorName').value;
+  const email = document.getElementById('sponsorEmail').value;
+  const message = document.getElementById('sponsorMessage').value;
+
+  await fetch(`https://api.airtable.com/v0/${airtableBaseId}/Sponsors`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${airtableApiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      fields: { Name: name, Email: email, Message: message }
+    })
+  });
+
+  document.getElementById('sponsorSuccess').style.display = 'block';
+  sponsorForm.reset();
+});
+
+// Host Form Submission
+const hostForm = document.getElementById('hostForm');
+hostForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById('hostName').value;
+  const email = document.getElementById('hostEmail').value;
+  const message = document.getElementById('hostMessage').value;
+
+  await fetch(`https://api.airtable.com/v0/${airtableBaseId}/Hosts`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${airtableApiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      fields: { Name: name, Email: email, Message: message }
+    })
+  });
+
+  document.getElementById('hostSuccess').style.display = 'block';
+  hostForm.reset();
+});
+</script>
+
+</body>
+</html>
