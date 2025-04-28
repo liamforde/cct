@@ -19,20 +19,28 @@
       top: 0;
       width: 100%;
       display: flex;
-      justify-content: center;
-      gap: 30px;
-      padding: 20px;
+      justify-content: space-between; /* KEY CHANGE */
+      align-items: center;
+      padding: 10px 30px;
       background-color: rgba(17, 17, 17, 0.9);
       z-index: 1000;
+    }
+    nav img {
+      height: 50px;
     }
     nav a {
       color: #fff;
       text-decoration: none;
       font-size: 18px;
     }
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
     section {
       min-height: 100vh;
-      padding: 80px 20px 40px; /* Top padding to not hide behind nav */
+      padding: 100px 20px 40px; /* Top padding to not hide behind nav */
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -83,13 +91,13 @@
 <body>
 
 <nav>
-  <div style="display: flex; align-items: center; gap: 20px;">
-    <img src="images/banner-logo.png" alt="Crypto Collectors Trail Logo" style="height: 50px;">
-    <div style="display: flex; gap: 30px;">
-      <a href="#home">Home</a>
-      <a href="#sponsors">Sponsors</a>
-      <a href="#hosts">Hosts</a>
-    </div>
+  <div>
+    <img src="images/banner-logo.png" alt="Crypto Collectors Trail Logo">
+  </div>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#sponsors">Sponsors</a>
+    <a href="#hosts">Hosts</a>
   </div>
 </nav>
 
