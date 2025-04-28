@@ -11,13 +11,19 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
     }
     nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
       display: flex;
       justify-content: center;
       gap: 30px;
       padding: 20px;
-      background-color: #111;
+      background-color: rgba(17, 17, 17, 0.9);
+      z-index: 1000;
     }
     nav a {
       color: #fff;
@@ -25,8 +31,14 @@
       font-size: 18px;
     }
     section {
-      padding: 40px;
+      min-height: 100vh;
+      padding: 80px 20px 40px; /* Top padding to not hide behind nav */
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      scroll-snap-align: start;
     }
     h1, h2 {
       margin-bottom: 20px;
@@ -53,9 +65,12 @@
       color: #000;
       font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 0 10px #f90;
+      transition: all 0.3s ease;
     }
     button:hover {
       background-color: #fc0;
+      box-shadow: 0 0 20px #fc0;
     }
     .success-message {
       margin-top: 20px;
@@ -124,7 +139,7 @@ const countdown = setInterval(function() {
   }
 }, 1000);
 
-// Airtable API Config
+// Airtable API Config - NOTE: REMOVE FROM FRONTEND IN PRODUCTION
 const airtableBaseId = 'appeO0iiIaJvd0KH3';
 const airtableApiKey = 'patD5LwrIV9iSbpeA.8b534267d24ac0c3cfba8b1fae23da3d257533e4e62f7dc6ff9f6ebe631251c8';
 
