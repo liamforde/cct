@@ -87,6 +87,41 @@
       font-size: 18px;
       display: none;
     }
+    #sponsorTierGroup {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .tier-button {
+      background-color: #222;
+      color: #fff;
+      padding: 20px 30px;
+      font-size: 18px;
+      border: 2px solid #666;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+      transition: all 0.2s ease-in-out;
+    }
+    
+    .tier-button input[type="radio"] {
+      display: none;
+    }
+    
+    .tier-button:hover {
+      background-color: #444;
+    }
+    
+    .tier-button input[type="radio"]:checked + span,
+    .tier-button:has(input[type="radio"]:checked) {
+      background-color: #f90;
+      color: #000;
+      border-color: #f90;
+    }
+
   </style>
 </head>
 <body>
@@ -116,12 +151,20 @@
   <input type="email" id="sponsorEmail" placeholder="Contact Email" required>
   <input type="tel" id="sponsorPhone" placeholder="Contact Phone" required>
 
-  <select id="sponsorTier" required>
-    <option value="" disabled selected>Select Sponsorship Tier</option>
-    <option value="Basic">Basic</option>
-    <option value="Premium">Premium</option>
-    <option value="Gold">Gold</option>
-  </select>
+  <div id="sponsorTierGroup">
+    <label class="tier-button">
+      <input type="radio" name="sponsorTier" value="Basic" required>
+      Basic
+    </label>
+    <label class="tier-button">
+      <input type="radio" name="sponsorTier" value="Premium">
+      Premium
+    </label>
+    <label class="tier-button">
+      <input type="radio" name="sponsorTier" value="Gold">
+      Gold
+    </label>
+  </div>
 
   <select id="rewardCoin" required>
     <option value="" disabled selected>Select Reward Meme Coin</option>
