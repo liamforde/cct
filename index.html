@@ -177,6 +177,7 @@
 
   <select id="regionSelect" required>
     <option value="" disabled selected>Select Region</option>
+    <option value="Global">Global</option>
     <option value="Europe">Europe</option>
     <option value="North America">North America</option>
     <option value="Asia">Asia</option>
@@ -286,7 +287,8 @@ hostForm.addEventListener('submit', async (e) => {
   // Cascading dropdown data
 const locationData = {
   "Europe": {
-    "Sweden": ["Stockholm", "Gothenburg", "Malmö"],
+    "Whole Region",
+    "Sweden": ["Entire Sweden", "Stockholm", "Gothenburg", "Malmö"],
     "Germany": ["Berlin", "Munich", "Hamburg"]
   },
   "North America": {
