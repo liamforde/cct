@@ -287,17 +287,19 @@ hostForm.addEventListener('submit', async (e) => {
   // Cascading dropdown data
 const locationData = {
   "Europe": {
-    "Whole Region",
+    "Entire Europe": [],
     "Sweden": ["Entire Sweden", "Stockholm", "Gothenburg", "Malmö"],
-    "Germany": ["Berlin", "Munich", "Hamburg"]
+    "Germany": ["Entire Germany", "Berlin", "Munich", "Hamburg"]
   },
   "North America": {
-    "USA": ["New York", "Los Angeles", "Austin"],
-    "Canada": ["Toronto", "Vancouver", "Montreal"]
+    "Entire North America": [],
+    "USA": ["Entire USA", "New York", "Los Angeles", "Austin"],
+    "Canada": ["Entire Canada", "Toronto", "Vancouver", "Montreal"]
   },
   "Asia": {
-    "Japan": ["Tokyo", "Osaka", "Kyoto"],
-    "India": ["Delhi", "Mumbai", "Bangalore"]
+    "Entire Asia": [],
+    "Japan": ["Entire Japan", "Tokyo", "Osaka", "Kyoto"],
+    "India": ["Entire India", "Delhi", "Mumbai", "Bangalore"]
   }
 };
 
@@ -305,31 +307,65 @@ const regionSelect = document.getElementById("regionSelect");
 const countrySelect = document.getElementById("countrySelect");
 const citySelect = document.getElementById("citySelect");
 
+function hide(el) {
+  el.style.display = "none";
+  el.setAttribute("disabled", "true");
+}
+
+function show(el) {
+  el.style.display = "block";
+  el.removeAttribute("disabled");
+}
+
+// Hide country and city on initial load
+hide(countrySelect);
+hide(citySelect);
+
 regionSelect.addEventListener("change", () => {
-  const selectedRegion = regionSelect.value;
+  const region = regionSelect.value;
   countrySelect.innerHTML = `<option value="" disabled selected>Select Country</option>`;
   citySelect.innerHTML = `<option value="" disabled selected>Select City</option>`;
-  if (locationData[selectedRegion]) {
-    Object.keys(locationData[selectedRegion]).forEach(country => {
+  hide(citySelect);
+
+  if (region === "Global") {
+    hide(countrySelect);
+    return;
+  }
+
+  if (locationData[region]) {
+    show(countrySelect);
+    Object.keys(locationData[region]).forEach(country => {
       const option = document.createElement("option");
       option.value = country;
       option.textContent = country;
       countrySelect.appendChild(option);
     });
+  } else {
+    hide(countrySelect);
   }
 });
 
 countrySelect.addEventListener("change", () => {
-  const selectedRegion = regionSelect.value;
-  const selectedCountry = countrySelect.value;
+  const region = regionSelect.value;
+  const country = countrySelect.value;
   citySelect.innerHTML = `<option value="" disabled selected>Select City</option>`;
-  if (locationData[selectedRegion] && locationData[selectedRegion][selectedCountry]) {
-    locationData[selectedRegion][selectedCountry].forEach(city => {
+
+  if (country.startsWith("Entire")) {
+    hide(citySelect);
+    return;
+  }
+
+  const cities = locationData[region]?.[country];
+  if (cities && cities.length > 0) {
+    show(citySelect);
+    cities.forEach(city => {
       const option = document.createElement("option");
       option.value = city;
       option.textContent = city;
       citySelect.appendChild(option);
     });
+  } else {
+    hide(citySelect);
   }
 });
 </script>
