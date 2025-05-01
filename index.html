@@ -112,12 +112,46 @@
   <h2>Become a Sponsor</h2>
   <p>Showcase your coin or brand to a passionate, tech-savvy audience. Premium visibility, direct engagement, and community buzz await you.</p>
   <form id="sponsorForm">
-    <input type="text" id="sponsorName" placeholder="Company Name" required>
-    <input type="email" id="sponsorEmail" placeholder="Contact Email" required>
-    <textarea id="sponsorMessage" placeholder="Why you want to sponsor" required></textarea>
-    <button type="submit">Apply to Sponsor</button>
-    <div class="success-message" id="sponsorSuccess">Thank you for applying to sponsor!</div>
-  </form>
+  <input type="text" id="sponsorName" placeholder="Company Name" required>
+  <input type="email" id="sponsorEmail" placeholder="Contact Email" required>
+  <input type="tel" id="sponsorPhone" placeholder="Contact Phone" required>
+
+  <select id="sponsorTier" required>
+    <option value="" disabled selected>Select Sponsorship Tier</option>
+    <option value="Basic">Basic</option>
+    <option value="Premium">Premium</option>
+    <option value="Gold">Gold</option>
+  </select>
+
+  <select id="rewardCoin" required>
+    <option value="" disabled selected>Select Reward Meme Coin</option>
+    <option value="DOGE">DOGE</option>
+    <option value="SHIBA">SHIBA</option>
+    <option value="PEPE">PEPE</option>
+    <option value="BONK">BONK</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <select id="regionSelect" required>
+    <option value="" disabled selected>Select Region</option>
+    <option value="Europe">Europe</option>
+    <option value="North America">North America</option>
+    <option value="Asia">Asia</option>
+  </select>
+
+  <select id="countrySelect" required>
+    <option value="" disabled selected>Select Country</option>
+  </select>
+
+  <select id="citySelect" required>
+    <option value="" disabled selected>Select City</option>
+  </select>
+
+  <textarea id="sponsorMessage" placeholder="Why you want to sponsor" required></textarea>
+  <button type="submit">Apply to Sponsor</button>
+  <div class="success-message" id="sponsorSuccess">Thank you for applying to sponsor!</div>
+</form>
+
 </section>
 
 <section id="hosts">
@@ -202,6 +236,54 @@ hostForm.addEventListener('submit', async (e) => {
 
   document.getElementById('hostSuccess').style.display = 'block';
   hostForm.reset();
+});
+
+  // Cascading dropdown data
+const locationData = {
+  "Europe": {
+    "Sweden": ["Stockholm", "Gothenburg", "Malmö"],
+    "Germany": ["Berlin", "Munich", "Hamburg"]
+  },
+  "North America": {
+    "USA": ["New York", "Los Angeles", "Austin"],
+    "Canada": ["Toronto", "Vancouver", "Montreal"]
+  },
+  "Asia": {
+    "Japan": ["Tokyo", "Osaka", "Kyoto"],
+    "India": ["Delhi", "Mumbai", "Bangalore"]
+  }
+};
+
+const regionSelect = document.getElementById("regionSelect");
+const countrySelect = document.getElementById("countrySelect");
+const citySelect = document.getElementById("citySelect");
+
+regionSelect.addEventListener("change", () => {
+  const selectedRegion = regionSelect.value;
+  countrySelect.innerHTML = `<option value="" disabled selected>Select Country</option>`;
+  citySelect.innerHTML = `<option value="" disabled selected>Select City</option>`;
+  if (locationData[selectedRegion]) {
+    Object.keys(locationData[selectedRegion]).forEach(country => {
+      const option = document.createElement("option");
+      option.value = country;
+      option.textContent = country;
+      countrySelect.appendChild(option);
+    });
+  }
+});
+
+countrySelect.addEventListener("change", () => {
+  const selectedRegion = regionSelect.value;
+  const selectedCountry = countrySelect.value;
+  citySelect.innerHTML = `<option value="" disabled selected>Select City</option>`;
+  if (locationData[selectedRegion] && locationData[selectedRegion][selectedCountry]) {
+    locationData[selectedRegion][selectedCountry].forEach(city => {
+      const option = document.createElement("option");
+      option.value = city;
+      option.textContent = city;
+      citySelect.appendChild(option);
+    });
+  }
 });
 </script>
 
