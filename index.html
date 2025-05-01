@@ -241,6 +241,8 @@ sponsorForm.addEventListener('submit', async (e) => {
   const name = document.getElementById('sponsorName').value;
   const email = document.getElementById('sponsorEmail').value;
   const message = document.getElementById('sponsorMessage').value;
+  const tier = document.querySelector('input[name="sponsorTier"]:checked')?.value || '';
+
 
   await fetch(`https://api.airtable.com/v0/${airtableBaseId}/Sponsors`, {
     method: 'POST',
